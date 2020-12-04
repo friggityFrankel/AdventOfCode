@@ -15,7 +15,7 @@ namespace Day3
             var result3 = CountTrees(input, new int[] { 5, 1 });
             var result4 = CountTrees(input, new int[] { 7, 1 });
             var result5 = CountTrees(input, new int[] { 1, 2 });
-            long product = result1 * result2 * result3 * result4 * result5;
+            var product = result1 * result2 * result3 * result4 * result5;
 
             Console.WriteLine($"{result1} * {result2} * {result3} * {result4} * {result5} = {product}");
 
