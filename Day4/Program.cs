@@ -13,12 +13,13 @@ namespace Day4
             var fileText = System.IO.File.ReadAllText(file);
             var input = fileText.Split("\n\n");
 
-            ValidatePassports(input);
+            var count = ValidatePassports(input);
+            Console.WriteLine($"Valid: {count}");
         }
 
-        private static void ValidatePassports(string[] passports)
+        private static int ValidatePassports(string[] passports)
         {
-            var requiredFields = new string[] { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
+            //var requiredFields = new string[] { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
             var count = 0;
             foreach (var passport in passports)
             {
@@ -40,7 +41,7 @@ namespace Day4
                 }
 
             }
-            Console.WriteLine($"Valid: {count}");
+            return count;
         }
 
         private static bool ValidateByr(string input)
