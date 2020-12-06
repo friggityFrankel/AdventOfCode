@@ -20,12 +20,12 @@ namespace Day6
             foreach (var group in input)
             {
                 var answers = group.Split("\n", StringSplitOptions.RemoveEmptyEntries).ToList();
-                var first = answers[0].ToCharArray().ToList();
-                foreach (var item in answers)
+                var answered = answers[0].ToCharArray().ToList();
+                foreach (var answer in answers)
                 {
-                    first = first.Intersect(item.ToCharArray().ToList()).ToList();
+                    answered = answered.Intersect(answer.ToCharArray().ToList()).ToList();
                 }
-                count += first.Count();
+                count += answered.Count();
             }
             return count;
         }
