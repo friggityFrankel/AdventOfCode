@@ -14,7 +14,7 @@ namespace Day6
             Console.WriteLine($"All Answered: {CountAllAnswered(input)}");
         }
 
-        private static object CountAllAnswered(string[] input)
+        private static int CountAllAnswered(string[] input)
         {
             int count = 0;
             foreach (var group in input)
