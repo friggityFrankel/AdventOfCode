@@ -20,10 +20,18 @@ namespace Day7
         private static void CountGoldBags(string[] input)
         {
             CreateList(input);
-            
+
+            var bagsWithGold = new List<Bag>();
             // some recursive shit here
+            foreach (var item in bags)
+            {
+                if (CountGoldBagsInside(item) > 0)
+                {
+                    bagsWithGold.Add(item);
+                }
+            }
             
-            Console.WriteLine($"Total Bags: {bags.Count}");
+            Console.WriteLine($"Total Bags: {bagsWithGold.Count}");
         }
 
         private static void CreateList(string[] input)
@@ -48,6 +56,23 @@ namespace Day7
                     }
                 }
             }
+        }
+
+        private static int CountGoldBagsInside(Bag bag)
+        {
+            int count = 0;
+            foreach (var bagInside in bag.Holds)
+            {
+                if (bagInside.Key.Name == "shiny gold bag")
+                {
+                    count += bagInside.Value;
+                }
+                else
+                {
+                    count += CountGoldBagsInside(bagInside.Key);
+                }
+            }
+            return count;
         }
 
         private static Bag GetBag(string name)
