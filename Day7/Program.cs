@@ -14,7 +14,8 @@ namespace Day7
             var input = System.IO.File.ReadAllLines(file);
 
             CountGoldBags(input);
-
+            var bagCount = CountAllBagsInside(bags.Single(b => b.Name == "shiny gold bag"));
+            Console.WriteLine($"Total Bags: {bagCount}");
         }
 
         private static void CountGoldBags(string[] input)
@@ -70,6 +71,20 @@ namespace Day7
                 else
                 {
                     count += CountGoldBagsInside(bagInside.Key);
+                }
+            }
+            return count;
+        }
+
+        private static int CountAllBagsInside(Bag bag)
+        {
+            int count = 0;
+            foreach (var bagInside in bag.Holds)
+            {
+                count += bagInside.Value;
+                if (bagInside.Key.Holds.Count > 0)
+                {
+                    count += (CountAllBagsInside(bagInside.Key) * bagInside.Value);
                 }
             }
             return count;
