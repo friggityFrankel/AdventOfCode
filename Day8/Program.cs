@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Day8
 {
@@ -15,36 +16,68 @@ namespace Day8
 
         private static void RunInstructions(string[] input)
         {
-            var index = 0;
-            var accumulator = 0;
-            var instructions = new List<int>();
-            var doLoop = true;
-            while (doLoop)
+            var wasSuccessful = false;
+            var correctAccumulator = 0;
+            for (int i = 0; i < input.Length; i++)
             {
-                if (instructions.Contains(index))
+                var testArray = input.ToList();
+                var index = 0;
+                var accumulator = 0;
+                var instructions = new List<int>();
+                var doLoop = true;
+                var testSwitch = testArray[i].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+
+                if (testSwitch[0] == "jmp")
                 {
-                    doLoop = false;
+                    testArray[i] = "nop " + testSwitch[1];
                 }
-                else
+                else if (testSwitch[0] == "nop")
                 {
-                    instructions.Add(index);
-                    var instruct = input[index].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                    switch (instruct[0])
+                    testArray[i] = "jmp " + testSwitch[1];
+                }
+
+                while (doLoop)
+                {
+                    if (instructions.Contains(index))
                     {
-                        case "acc":
-                            accumulator += int.Parse(instruct[1]);
-                            index += 1;
-                            break;
-                        case "jmp":
-                            index += int.Parse(instruct[1]);
-                            break;
-                        case "nop":
-                            index += 1;
-                            break;
+                        doLoop = false;
+                    }
+                    else
+                    {
+                        instructions.Add(index);
+
+                        var instruct = testArray[index].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                        switch (instruct[0])
+                        {
+                            case "acc":
+                                accumulator += int.Parse(instruct[1]);
+                                index += 1;
+                                break;
+                            case "jmp":
+                                index += int.Parse(instruct[1]);
+                                break;
+                            case "nop":
+                                index += 1;
+                                break;
+                        }
+
+                        if (index == testArray.Count)
+                        {
+                            wasSuccessful = true;
+                            doLoop = false;
+                        }
                     }
                 }
+
+                if (wasSuccessful)
+                {
+                    correctAccumulator = accumulator;
+                    break;
+                }
+                //Console.WriteLine($"Accumulator: {accumulator}");
             }
-            Console.WriteLine($"Accumulator: {accumulator}");
+
+            Console.WriteLine(correctAccumulator);
         }
     }
 }
